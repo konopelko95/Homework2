@@ -1,14 +1,8 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 
-import javax.swing.*;
-import java.io.File;
-
-import static com.codeborne.selenide.Selectors.byName;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -36,17 +30,17 @@ public class Homework2 {
         $("[id=dateOfBirthInput]").click();
         $(".react-datepicker__month-select").selectOptionByValue("6");
         $(".react-datepicker__year-select").selectOptionByValue("1995");
-        $$(".react-datepicker__day").find(Condition.text("22")).click();
+        $$(".react-datepicker__day").find(text("22")).click();
 
         $("[id=uploadPicture]").scrollTo();
 
         $("#subjectsInput").click();
-        $("#subjectsInput").sendKeys("E");
+        $("#subjectsInput").val("E");
         $(byText("Economics")).click();
         $(byText("Sports")).click();
 
         //загрузка изображения
-        $("[id=uploadPicture]").uploadFile(new File("file\\1.jpg"));
+        $("[id=uploadPicture]").uploadFromClasspath("1.jpg");
 
         //заполнение адресных данных
         $("[id=currentAddress]").val("Alexanderplatz, 11");
@@ -58,21 +52,21 @@ public class Homework2 {
         //завершение заполнения анкеты
         $("[id=submit]").click();
 
-        $(byText("Thanks for submitting the form")).shouldBe(Condition.visible);
+        //new check
+        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("Neznayka Pavlov\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("example@gmail.com\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("Male\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("7779992545\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("22 July,1995\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("Economics\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("Sports\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("1.jpg\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("Alexanderplatz, 11\n"));
+        $("#example-modal-sizes-title-lg").shouldHave(text("NCR Delhi\n"));
 
-        //проверка заполненных данных
-        $(byText("Neznayka Pavlov")).shouldBe(Condition.visible);
-        $(byText("example@gmail.com")).shouldBe(Condition.visible);
-        $(byText("Male")).shouldBe(Condition.visible);
-        $(byText("7779992545")).shouldBe(Condition.visible);
-        $(byText("22 July,1995")).shouldBe(Condition.visible);
-        $(byText("Economics")).shouldBe(Condition.visible);
-        $(byText("Sports")).shouldBe(Condition.visible);
-        $(byText("1.jpg")).shouldBe(Condition.visible);
-        $(byText("Alexanderplatz, 11")).shouldBe(Condition.visible);
-        $(byText("NCR Delhi")).shouldBe(Condition.visible);
 
-        $("[id=closeLargeModal]").click();
+        $("[id=closeLargeModal]").scrollTo().click();
 
     }
 }
